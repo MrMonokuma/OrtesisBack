@@ -10,8 +10,10 @@ class UsuariosDao(dao):
         try:
             cnx = super().connectDB()
             cursor = cnx.cursor()
-            args=[usuario.documento,usuario.sexo,usuario.nombre,usuario.direccion,usuario.email,usuario.telefono,usuario.contraseña]
-            cursor.callproc("crearUsuario",args)
+            sql="insert into Persona (idPersona, nombrePersona, direccionPersona, correoPersona, generoPersona, clavePersona, rol, telefono) values ('"+usuario.documento+"','"+usuario.nombre+"','"+usuario.direccion+"','"+usuario.correo+"','"+usuario.sexo+"','"+usuario.contraseña+"','"+usuario.rol+"','"+usuario.telefono+"');"
+            cursor.execute(sql)
+            #args=[usuario.documento,usuario.sexo,usuario.nombre,usuario.direccion,usuario.email,usuario.telefono,usuario.contraseña]
+            #cursor.callproc("crearUsuario",args)
             cnx.commit()
             cursor.close()
             cnx.close()
@@ -29,19 +31,19 @@ class UsuariosDao(dao):
         try:
             cnx = super().connectDB()
             cursor = cnx.cursor()
-            sql = "select * from PERSONA where email='"+email+"' and contraseña=sha('"+password+"');"
+            sql = "select * from Persona where correoPersona='"+email+"' and clavePersona=sha('"+password+"');"
             cursor.execute(sql)
             usuario=None
             for row in cursor:
                 documento=row[0]
-                sexo=row[1]
-                nombre=row[2]
+                nombre=row[1]
+                direccion=row[2]
                 email=row[3]
-                contraseña=row[4]
-                telefono=row[5]
-                direccion=row[6]
-                rol=row[7]
-                usuario=Persona(documento,sexo,nombre,email,contraseña,telefono,direccion,rol)
+                sexo=row[4]
+                contraseña=row[5]
+                rol=row[6]
+                telefono=row[7]
+                usuario=Persona(documento,nombre,direccion,email,sexo,contraseña,rol,telefono)
             cursor.close()
             cnx.close()
             return usuario

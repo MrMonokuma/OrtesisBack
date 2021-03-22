@@ -12,14 +12,15 @@ print('')
 
 if os.environ['REQUEST_METHOD']=="POST":
     datos= cgi.FieldStorage()
-    nombre=datos.getvalue('nombre')
     documento=datos.getvalue('documento')
-    email=datos.getvalue('email')
-    telefono=datos.getvalue('telefono')
-    contraseña =datos.getvalue('contra')
-    sexo=datos.getvalue('sexo')
+    nombre=datos.getvalue('nombre')
     direccion=datos.getvalue('direccion')
+    email=datos.getvalue('email')
+    sexo=datos.getvalue('sexo')
+    contraseña =datos.getvalue('contra')
     rol="user"
+    telefono=datos.getvalue('telefono')
+
 
     usuario=Persona(documento,sexo,nombre,email,contraseña,telefono,direccion,rol)
     dao=UsuariosDao()

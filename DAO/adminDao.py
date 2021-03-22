@@ -10,11 +10,13 @@ class AdminDao(dao):
         try:
             cnx = super().connectDB()
             cursor = cnx.cursor()
-            args=[administrador.documento,administrador.tipoDocumento,administrador.nombre,administrador.direccion,administrador.email,administrador.telefono,administrador.contraseña]
-            cursor.callproc("crearAdministrador",args)
-            for permiso in administrador.permisos:
-                sql = "insert into ADMINISTRADOR_has_PERMISO (ADMINISTRADOR_PERSONA_idPERSONA,PERMISO_idPERMISO)  values (%s,%s);"
-                cursor.execute(sql,(administrador.documento,permiso))
+            sql="insert into Persona (idPersona, nombrePersona, direccionPersona, correoPersona, generoPersona, clavePersona, rol, telefono) values ('"+administrador.documento+"','"+administrador.nombre+"','"+administrador.direccion+"','"+administrador.correo+"','"+administrador.sexo+"','"+administrador.contraseña+"','"+administrador.rol+"','"+administrador.telefono+"');"
+            cursor.execute(sql)
+            #args=[administrador.documento,administrador.tipoDocumento,administrador.nombre,administrador.direccion,administrador.email,administrador.telefono,administrador.contraseña]
+            #cursor.callproc("crearAdministrador",args)
+            #for permiso in administrador.permisos:
+                #sql = "insert into ADMINISTRADOR_has_PERMISO (ADMINISTRADOR_PERSONA_idPERSONA,PERMISO_idPERMISO)  values (%s,%s);"
+                #cursor.execute(sql,(administrador.documento,permiso))
             cnx.commit()
             cursor.close()
             cnx.close()
@@ -35,14 +37,14 @@ class AdminDao(dao):
             administrador=None
             for row in cursor:
                 documento=row[0]
-                sexo=row[1]
-                nombre=row[2]
+                nombre=row[1]
+                direccion=row[2]
                 email=row[3]
-                contraseña=row[4]
-                telefono=row[5]
-                direccion=row[6]
-                rol=row[7]
-                administrador=Persona(documento,sexo,nombre,email,contraseña,telefono,direccion,rol)
+                sexo=row[4]
+                contraseña=row[5]
+                rol=row[6]
+                telefono=row[7]
+                administrador=Persona(documento,nombre,direccion,email,sexo,contraseña,rol,telefono)
             cursor.close()
             cnx.close()
             return administrador
