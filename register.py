@@ -18,7 +18,7 @@ if os.environ['REQUEST_METHOD']=="POST":
     email=datos.getvalue('email')
     sexo=datos.getvalue('sexo')
     contraseña =datos.getvalue('contra')
-    rol="user"
+    rol=datos.getvalue('rol')
     telefono=datos.getvalue('telefono')
 
 
